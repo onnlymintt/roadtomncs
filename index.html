@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROAD TO MNC</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --black: #000000; 
+            --dark-green: #173D2F; 
+            --off-white: #FFFEF0; 
+            --lime-green: #B9DF30; 
+            --font-heading: 'Roboto Condensed', sans-serif; 
+            --font-body: 'Roboto', sans-serif; 
+            
+            /* Tone màu Neo-Brutalism */
+            --brutal-purple: #B57EDC;
+            --brutal-blue: #4ADE80;
+            --brutal-yellow: #FDE047;
+            --brutal-pink: #F472B6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--off-white);
+            color: var(--black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: var(--font-heading);
+            color: var(--dark-green);
+            text-transform: uppercase;
+        }
+
+        a { text-decoration: none; }
+
+        /* --- VỎ BỌC ROAD TO MNC --- */
+        .marquee {
+            width: 100vw;
+            background-color: var(--lime-green);
+            color: var(--black);
+            padding: 10px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-bottom: 2px solid var(--black);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+        }
+        .marquee span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .container { max-width: 100%; margin: 0; padding: 0; border-bottom: 2px solid var(--black); }
+        .grid-section { display: grid; grid-template-columns: 1fr; }
+        @media(min-width: 768px) { .grid-section { grid-template-columns: 1fr 1fr; } }
+        .border-right { border-right: 2px solid var(--black); }
+        .border-bottom { border-bottom: 2px solid var(--black); }
+        .pad-xl { padding: 80px 40px; }
+        .pad-l { padding: 40px; }
+        .pad-m { padding: 20px; }
+        .title-hero { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; margin-bottom: 20px; letter-spacing: -1px; }
+        .title-section { font-size: clamp(2rem, 4vw, 3rem); line-height: 1; margin-bottom: 20px; }
+        .text-lead { font-size: 1.2rem; font-weight: 500; }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--black);
+            color: var(--lime-green);
+            padding: 15px 30px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 2px solid var(--black);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .btn:hover { background-color: var(--lime-green); color: var(--black); transform: translate(-4px, -4px); box-shadow: 6px 6px 0px var(--dark-green); }
+        .btn-green { background-color: var(--lime-green); color: var(--black); }
+        .btn-green:hover { background-color: var(--black); color: var(--lime-green); box-shadow: 6px 6px 0px var(--lime-green); }
+        .bg-dark { background-color: var(--dark-green); color: var(--off-white); }
+        .bg-dark .title-section { color: var(--lime-green); }
+        ul.custom-list { list-style: none; margin-bottom: 20px; }
+        ul.custom-list li { padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        ul.custom-list li:last-child { border-bottom: none; }
+
+
+        /* ========================================= */
+        /* --- NEO-BRUTALISM SURPRISE MODAL --- */
+        /* ========================================= */
+        #birthday-surprise {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: var(--brutal-yellow);
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 2px, transparent 2px);
+            background-size: 30px 30px;
+            z-index: 99999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto; 
+        }
+        
+        #birthday-surprise.show { display: flex; }
+
+        .brutal-box {
+            background: #ffffff;
+            border: 5px solid var(--black);
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 15px 15px 0px var(--black);
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column; 
+        }
+
+        @media(min-width: 850px) {
+            .brutal-box {
+                flex-direction: row;
+            }
+        }
+
+        .music-toggle {
+            position: absolute;
+            top: -25px; right: -20px;
+            background: var(--brutal-blue);
+            border: 4px solid var(--black);
+            color: var(--black);
+            padding: 10px 20px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 6px 6px 0px var(--black);
+            transition: transform 0.1s;
+            z-index: 100;
+        }
+        .music-toggle:active {
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0px var(--black);
+        }
+
+        /* --- Cột Trái: Ảnh Polaroid & Tag ghim --- */
+        .polaroid-col {
+            background: var(--brutal-purple);
+            padding: 50px 30px 30px 30px; /* Thêm padding top để nhường chỗ cho cái ghim */
+            border-bottom: 5px solid var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        @media(min-width: 850px) {
+            .polaroid-col {
+                width: 45%;
+                border-bottom: none;
+                border-right: 5px solid var(--black);
+            }
+        }
+
+        .polaroid-frame {
+            background: white;
+            padding: 15px; /* Bỏ padding bottom rộng của version cũ vì chữ đã lên trên */
+            border: 4px solid var(--black);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+            transform: rotate(-3deg);
+            max-width: 280px;
+            width: 100%;
+            position: relative;
+        }
+
+        .polaroid-frame img {
+            width: 100%;
+            aspect-ratio: 1/1; 
+            object-fit: cover;
+            border: 3px solid var(--black);
+            background-color: #ddd;
+            display: block;
+        }
+
+        /* THIẾT KẾ CÁI GHIM (PIN) KIỂU NEO-BRUTALISM */
+        .brutal-pin {
+            position: absolute;
+            top: -35px; /* Nhô lên khỏi tấm ảnh */
+            left: 50%;
+            transform: translateX(-50%) rotate(4deg);
+            background: var(--brutal-blue); /* Dùng màu xanh lơ tương phản với nền tím */
+            border: 4px solid var(--black);
+            padding: 18px 15px 5px 15px; /* Padding trên lớn hơn để nhường chỗ cho cái đinh */
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--black);
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 4px 4px 0px var(--black);
+            z-index: 10;
+            line-height: 1.2;
+        }
+
+        /* Dấu chấm đen giả làm cái đinh ghim */
+        .brutal-pin::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--black);
+            border-radius: 50%;
+        }
+
+
+        /* --- Cột Phải: Lời Chúc & Nút --- */
+        .content-col {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        @media(min-width: 850px) {
+            .content-col { width: 55%; }
+        }
+
+        .brutal-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--black);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px var(--brutal-pink);
+        }
+
+        .brutal-text {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--black);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .highlight-text {
+            font-family: var(--font-body);
+            background: var(--lime-green);
+            color: var(--black);
+            padding: 15px 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            border: 3px solid var(--black);
+            box-shadow: 5px 5px 0px var(--black);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; 
+        }
+
+        .btn-brutal {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            padding: 15px 30px;
+            border: 4px solid var(--black);
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 8px 8px 0px var(--black);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        #btn-yes {
+            background-color: var(--brutal-pink);
+            color: var(--black);
+            flex: 1; 
+        }
+        
+        #btn-yes:active {
+            transform: translate(6px, 6px);
+            box-shadow: 2px 2px 0px var(--black);
+        }
+
+        #btn-no {
+            background-color: #fff;
+            color: var(--black);
+            position: relative; 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- THẺ AUDIO -->
+    <audio id="bg-music" loop>
+        <source src="nhac.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- MÀN HÌNH CHÚC MỪNG SINH NHẬT NEO-BRUTALISM -->
+    <div id="birthday-surprise">
+        <div class="brutal-box">
+            <button id="btn-music" class="music-toggle">🎵 NHẠC (OFF)</button>
+            
+            <!-- Cột Trái: Polaroid -->
+            <div class="polaroid-col">
+                <div class="polaroid-frame">
+                    <!-- Ghim Neo-Brutalism đính thẳng lên hình -->
+                    <div class="brutal-pin">HAPPY BIRTHDAY<br> olong tôi yêu </div>
+                    <!-- Ảnh của Thư -->
+                    <img src="thu.jpg" alt="Ảnh của trà" onerror="this.src='https://via.placeholder.com/400x400?text=UP+ANH+ZO'">
+                </div>
+            </div>
+
+            <!-- Cột Phải: Nội dung -->
+            <div class="content-col">
+                <h1 class="brutal-title">TÉN TÈN TEN!</h1>
+                
+                <p class="brutal-text">
+                    Á nhon, chào người bạn hạng A+ (cho t lên S+ dùm), t thích mày lắm olong ơi, nghĩa trên mặt chữ haizz. Chúc tủi mới đẹp gái và tự tin, lên Manager vội dùm luôn
+                </p>
+                <div class="highlight-text">
+                    Vội lên kèo đi coi phim gì đó nhẹ với t lìn nha (chả biết phim rì, chắc cứ ra rạp lựa thôi haha 🎬🍿).
+                </div>
+
+                <div class="action-buttons">
+                    <!-- Đã sửa thành ĐI LUÔN -->
+                    <button id="btn-yes" class="btn-brutal">YESSS (ĐI LUÔN!)</button>
+                    <button id="btn-no" class="btn-brutal">NO (CHÊ)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VỎ BỌC MNC BÊN DƯỚI -->
+    <div class="marquee">
+        <span>ROAD TO MNC PROGRAM • ROAD TO MNC PROGRAM • ROAD TO MNC PROGRAM • ROAD TO MNC PROGRAM • ROAD TO MNC PROGRAM •</span>
+    </div>
+
+    <div class="container grid-section">
+        <div class="pad-xl border-right reveal">
+            <h1 class="title-hero">ROAD<br>TO MNC.</h1>
+            <p class="text-lead" style="margin-bottom: 30px;">Giải pháp All-in-one phối hợp giữa Masterclass hệ thống và Mentoring 1-1 cá nhân hóa.</p>
+            <a href="#" class="btn btn-green prank-trigger">ĐĂNG KÝ TƯ VẤN</a>
+        </div>
+        <div class="pad-xl reveal" style="background-color: var(--black); color: var(--off-white);">
+            <h3 style="color: var(--lime-green); font-size: 2rem; margin-bottom: 20px;">VẤN ĐỀ CỦA BẠN</h3>
+            <ul style="list-style: none; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.8;">
+                <li>• Bạn đã học nhiều khóa học. Nhưng vẫn chưa có Offer.</li>
+                <li>• Bạn biết CV Harvard.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container bg-dark pad-l text-center reveal">
+        <h2 class="title-section" style="max-width: 900px; margin: 0 auto;">CHÚNG TÔI KHÔNG CHỈ DẠY LÝ THUYẾT. CHÚNG TÔI ĐỒNG HÀNH TRONG TOÀN BỘ HÀNH TRÌNH NHẬN OFFER.</h2>
+    </div>
+
+    <div class="container pad-xl text-center reveal" style="border-top: 2px solid var(--black);">
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="#" class="btn btn-green prank-trigger" style="font-size: 1.5rem; padding: 20px 40px;">ĐĂNG KÝ NHẬN TƯ VẤN LỘ TRÌNH RIÊNG</a>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-center pad-m reveal">
+        <h1 class="font-heading" style="color: var(--lime-green); font-size: 3rem; margin-bottom: 10px;">ROAD TO MNC.</h1>
+        <p style="font-size: 0.9rem; margin-bottom: 20px;">© 2026. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const reveals = document.querySelectorAll(".reveal");
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add("active");
+                    }
+                });
+            };
+            revealOnScroll();
+            window.addEventListener("scroll", revealOnScroll);
+
+            const prankTriggers = document.querySelectorAll('.prank-trigger');
+            const surpriseModal = document.getElementById('birthday-surprise');
+            const btnYes = document.getElementById('btn-yes');
+            const btnNo = document.getElementById('btn-no');
+            const bgMusic = document.getElementById('bg-music');
+            const btnMusicToggle = document.getElementById('btn-music');
+            
+            let isMusicPlaying = false;
+
+            const fireConfetti = () => {
+                const duration = 2500;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 10,
+                        angle: 60,
+                        spread: 80,
+                        origin: { x: 0 },
+                        colors: ['#000000', '#B57EDC', '#F472B6', '#FDE047', '#4ADE80'],
+                        shapes: ['square'] 
+                    });
+                    confetti({
+                        particleCount: 10,
+                        angle: 120,
+                        spread: 80,
+                        origin: { x: 1 },
+                        colors: ['#000000', '#B57EDC', '#F472B6', '#FDE047', '#4ADE80'],
+                        shapes: ['square']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            };
+
+            prankTriggers.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    surpriseModal.classList.add('show');
+
+                    bgMusic.play().then(() => {
+                        isMusicPlaying = true;
+                        btnMusicToggle.innerText = "🎵 NHẠC (ON)";
+                    }).catch(() => {
+                        btnMusicToggle.innerText = "🎵 NHẠC (OFF)";
+                    });
+                });
+            });
+
+            btnMusicToggle.addEventListener('click', () => {
+                if (isMusicPlaying) {
+                    bgMusic.pause();
+                    btnMusicToggle.innerText = "🎵 NHẠC (OFF)";
+                } else {
+                    bgMusic.play();
+                    btnMusicToggle.innerText = "🎵 NHẠC (ON)";
+                }
+                isMusicPlaying = !isMusicPlaying;
+            });
+
+            btnYes.addEventListener('click', () => {
+                fireConfetti();
+                setTimeout(() => {
+                    alert("Chốt kèo nha! Lên đồ đi coi phim thôiiii 💖🍿");
+                }, 800);
+            });
+
+            btnNo.addEventListener('mouseover', function() {
+                const btnWidth = this.offsetWidth;
+                const btnHeight = this.offsetHeight;
+                
+                const maxX = window.innerWidth - btnWidth - 20;
+                const maxY = window.innerHeight - btnHeight - 20;
+
+                const randomX = Math.max(10, Math.random() * maxX);
+                const randomY = Math.max(10, Math.random() * maxY);
+
+                this.style.position = 'fixed';
+                this.style.left = randomX + 'px';
+                this.style.top = randomY + 'px';
+                this.style.zIndex = '999999';
+                this.style.boxShadow = "4px 4px 0px var(--black)";
+            });
+        });
+    </script>
+</body>
+</html>
