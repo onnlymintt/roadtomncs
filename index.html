@@ -171,7 +171,7 @@
         /* --- Cột Trái: Ảnh Polaroid & Tag ghim --- */
         .polaroid-col {
             background: var(--brutal-purple);
-            padding: 50px 30px 30px 30px; /* Thêm padding top để nhường chỗ cho cái ghim */
+            padding: 50px 30px 30px 30px; 
             border-bottom: 5px solid var(--black);
             display: flex;
             justify-content: center;
@@ -188,7 +188,7 @@
 
         .polaroid-frame {
             background: white;
-            padding: 15px; /* Bỏ padding bottom rộng của version cũ vì chữ đã lên trên */
+            padding: 15px; 
             border: 4px solid var(--black);
             box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
             transform: rotate(-3deg);
@@ -209,12 +209,12 @@
         /* THIẾT KẾ CÁI GHIM (PIN) KIỂU NEO-BRUTALISM */
         .brutal-pin {
             position: absolute;
-            top: -35px; /* Nhô lên khỏi tấm ảnh */
+            top: -35px; 
             left: 50%;
             transform: translateX(-50%) rotate(4deg);
-            background: var(--brutal-blue); /* Dùng màu xanh lơ tương phản với nền tím */
+            background: var(--brutal-blue); 
             border: 4px solid var(--black);
-            padding: 18px 15px 5px 15px; /* Padding trên lớn hơn để nhường chỗ cho cái đinh */
+            padding: 18px 15px 5px 15px; 
             font-family: var(--font-heading);
             font-size: 1.1rem;
             font-weight: 900;
@@ -320,9 +320,9 @@
 </head>
 <body>
 
-    <!-- THẺ AUDIO -->
+    <!-- THẺ AUDIO ĐÃ SỬA LẠI TÊN FILE CHUẨN -->
     <audio id="bg-music" loop>
-        <source src="nhạc.mp3" type="audio/mpeg">
+        <source src="nhac.mp3" type="audio/mpeg">
     </audio>
 
     <!-- MÀN HÌNH CHÚC MỪNG SINH NHẬT NEO-BRUTALISM -->
@@ -335,8 +335,8 @@
                 <div class="polaroid-frame">
                     <!-- Ghim Neo-Brutalism đính thẳng lên hình -->
                     <div class="brutal-pin">HAPPY BIRTHDAY<br> olong tôi yêu </div>
-                    <!-- Ảnh của Thư -->
-                    <img src="ảnh.JPG" alt="Ảnh của trà" onerror="this.src='https://via.placeholder.com/400x400?text=UP+ANH+ZO'">
+                    <!-- Ảnh của Thư ĐÃ SỬA LẠI TÊN FILE CHUẨN -->
+                    <img src="anh.jpg" alt="Ảnh của trà" onerror="this.src='https://via.placeholder.com/400x400?text=UP+ANH+ZO'">
                 </div>
             </div>
 
@@ -352,7 +352,6 @@
                 </div>
 
                 <div class="action-buttons">
-                    <!-- Đã sửa thành ĐI LUÔN -->
                     <button id="btn-yes" class="btn-brutal">YESSS (ĐI LUÔN!)</button>
                     <button id="btn-no" class="btn-brutal">NO (CHÊ)</button>
                 </div>
